@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nafiz | Full Stack Developer</title>
+    <meta name="description" content="Nafiz - Full Stack Developer specializing in Web, iOS & Android development">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: 0 0% 3.9%;
+            --fg: 0 0% 98%;
+            --muted: 0 0% 63.9%;
+            --border: 0 0% 14.9%;
+            --accent: 0 0% 14.9%;
+            --grid-color: rgba(255,255,255,0.05);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: hsl(var(--bg));
+            color: hsl(var(--fg));
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-family: 'Orbitron', sans-serif; }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* ===== ANIMATED GRID BACKGROUND ===== */
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+        .grid-bg {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+            animation: gridMove 3s linear infinite;
+        }
+
+        /* ===== FLOATING PARTICLES ===== */
+        @keyframes float1 {
+            0%, 100% { transform: translate(0,0) scale(1); opacity:.3; }
+            25% { transform: translate(100px,-200px) scale(1.2); opacity:.6; }
+            50% { transform: translate(-50px,-400px) scale(.8); opacity:.2; }
+            75% { transform: translate(150px,-300px) scale(1.1); opacity:.5; }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translate(0,0) rotate(0deg); opacity:.2; }
+            50% { transform: translate(-120px,-350px) rotate(180deg); opacity:.5; }
+        }
+        @keyframes float3 {
+            0%, 100% { transform: translate(0,0); opacity:.15; }
+            33% { transform: translate(80px,-150px); opacity:.4; }
+            66% { transform: translate(-60px,-300px); opacity:.25; }
+        }
+        .particle { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        .p1 { width:4px;height:4px;background:rgba(0,255,255,.5);bottom:10%;left:10%;animation:float1 12s ease-in-out infinite; }
+        .p2 { width:6px;height:6px;background:rgba(255,0,255,.4);bottom:20%;right:15%;animation:float2 15s ease-in-out infinite; }
+        .p3 { width:3px;height:3px;background:rgba(0,255,128,.5);bottom:5%;left:50%;animation:float3 10s ease-in-out infinite; }
+        .p4 { width:5px;height:5px;background:rgba(255,200,0,.3);bottom:30%;right:30%;animation:float1 18s ease-in-out infinite reverse; }
+        .p5 { width:3px;height:3px;background:rgba(100,100,255,.5);bottom:15%;left:70%;animation:float2 13s ease-in-out infinite 2s; }
+
+        /* ===== GLASS ===== */
+        .glass {
+            background: hsla(var(--fg) / .03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--grid-color);
+        }
+
+        /* ===== RGB SWEEP BUTTON ===== */
+        @keyframes rgbSweep {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .btn-rgb {
+            position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 8px;
+            border: 1px solid hsla(var(--fg) / .15); background: hsla(var(--fg) / .05);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            transition: all .4s cubic-bezier(.4,0,.2,1);
+            transform-style: preserve-3d; perspective: 800px;
+            font-family: 'Orbitron', sans-serif; letter-spacing: .05em;
+            padding: 12px 24px; border-radius: 9999px; font-size: 13px; font-weight: 600;
+            color: hsl(var(--fg)); cursor: pointer;
+        }
+        .btn-rgb::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg,
+                rgba(255,0,0,0) 0%, rgba(255,0,0,.15) 10%, rgba(255,165,0,.15) 20%,
+                rgba(255,255,0,.15) 30%, rgba(0,255,0,.15) 40%, rgba(0,255,255,.15) 50%,
+                rgba(0,0,255,.15) 60%, rgba(128,0,255,.15) 70%, rgba(255,0,255,.15) 80%,
+                rgba(255,0,0,.15) 90%, rgba(255,0,0,0) 100%);
+            background-size: 300% 100%; opacity: 0; transition: opacity .4s ease;
+            animation: rgbSweep 3s linear infinite; z-index: 0;
+        }
+        .btn-rgb:hover::before { opacity: 1; }
+        .btn-rgb:hover {
+            border-color: hsla(var(--fg) / .3);
+            transform: translateY(-2px) rotateX(2deg);
+            box-shadow: 0 10px 40px -10px rgba(0,255,255,.15), 0 5px 20px -5px rgba(255,0,255,.1);
+        }
+        .btn-rgb > * { position: relative; z-index: 1; }
+
+        /* ===== RGB OUTLINE BUTTON ===== */
+        .btn-rgb-outline {
+            position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 8px;
+            background: transparent; border: 1px solid hsla(var(--fg) / .2);
+            transition: all .4s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d;
+            font-family: 'Orbitron', sans-serif; letter-spacing: .05em;
+            padding: 12px 24px; border-radius: 9999px; font-size: 13px; font-weight: 600;
+            color: hsl(var(--fg)); cursor: pointer;
+        }
+        .btn-rgb-outline::after {
+            content: ''; position: absolute; inset: -2px; border-radius: inherit;
+            background: linear-gradient(90deg,
+                rgba(255,0,0,.4), rgba(255,165,0,.4), rgba(0,255,0,.4),
+                rgba(0,255,255,.4), rgba(0,0,255,.4), rgba(255,0,255,.4), rgba(255,0,0,.4));
+            background-size: 300% 100%; animation: rgbSweep 3s linear infinite;
+            opacity: 0; transition: opacity .4s ease; z-index: -1;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude; -webkit-mask-composite: xor; padding: 2px;
+        }
+        .btn-rgb-outline:hover::after { opacity: 1; }
+        .btn-rgb-outline:hover {
+            transform: translateY(-2px) rotateX(2deg);
+            box-shadow: 0 8px 30px -8px rgba(0,200,255,.12);
+        }
+
+        /* ===== TEXT GRADIENT ===== */
+        .text-gradient {
+            background: linear-gradient(to right, hsl(var(--fg)), hsl(0 0% 45%));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== GLOW DOT ===== */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 4px 2px rgba(0,255,128,.4); }
+            50% { box-shadow: 0 0 8px 4px rgba(0,255,128,.7); }
+        }
+        .glow-dot { width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pulseGlow 2s ease-in-out infinite; }
+
+        /* ===== CARD 3D ===== */
+        .card-3d { transition: transform .3s ease, box-shadow .3s ease; transform-style: preserve-3d; }
+        .card-3d:hover { transform: translateY(-4px) rotateX(1deg) rotateY(-1deg); box-shadow: 0 20px 40px -15px rgba(0,0,0,.3); }
+
+        /* ===== REVEAL ===== */
+        @keyframes fadeInUp {
+            from { opacity:0; transform:translateY(30px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        .reveal { opacity: 0; }
+        .reveal.visible { animation: fadeInUp .8s ease-out forwards; }
+
+        /* ===== FAQ ===== */
+        .faq-content { max-height:0; overflow:hidden; transition: max-height .4s ease; }
+        .faq-content.open { max-height:300px; }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width:8px; }
+        ::-webkit-scrollbar-track { background:hsl(var(--bg)); }
+        ::-webkit-scrollbar-thumb { background:var(--grid-color); border-radius:10px; }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu { position:fixed;inset:0;z-index:60;transform:translateX(100%);transition:transform .3s ease-in-out; }
+        .mobile-menu.active { transform:translateX(0); }
+
+        /* ===== LAYOUT ===== */
+        .container { max-width:1152px; margin:0 auto; padding:0 24px; }
+        .section { position:relative; z-index:1; padding:96px 0; }
+
+        /* ===== GRID HELPERS ===== */
+        .grid-2 { display:grid; grid-template-columns:1fr; gap:24px; }
+        .grid-3 { display:grid; grid-template-columns:1fr; gap:24px; }
+        @media(min-width:640px) { .grid-2 { grid-template-columns: repeat(2,1fr); } .grid-3 { grid-template-columns: repeat(2,1fr); } }
+        @media(min-width:1024px) { .grid-3 { grid-template-columns: repeat(3,1fr); } }
+
+        /* ===== NAV ===== */
+        .nav { position:fixed;top:0;left:0;right:0;z-index:50;height:64px;display:flex;align-items:center; }
+        .nav-inner { display:flex;align-items:center;justify-content:space-between;width:100%; }
+        .nav-links { display:none;align-items:center;gap:32px; }
+        .nav-actions { display:none;align-items:center;gap:12px; }
+        @media(min-width:768px) { .nav-links,.nav-actions { display:flex; } .mobile-toggle { display:none; } }
+
+        .nav-link { font-size:13px;color:hsl(var(--muted));transition:color .2s;font-weight:500; }
+        .nav-link:hover { color:hsl(var(--fg)); }
+
+        .icon-btn { width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s;border:none;background:transparent;color:hsl(var(--fg));cursor:pointer; }
+        .icon-btn:hover { background:hsla(var(--fg) / .08); }
+
+        .mobile-toggle { border:none;background:transparent;color:hsl(var(--fg));cursor:pointer;padding:8px; }
+
+        /* ===== STAT ===== */
+        .stat-card { text-align:center;padding:16px;border-radius:16px; }
+        .stat-num { font-family:'Orbitron',sans-serif;font-size:24px;font-weight:700; }
+        .stat-label { font-size:12px;color:hsl(var(--muted));margin-top:4px; }
+
+        /* ===== PROJECT CARD ===== */
+        .proj-thumb { aspect-ratio:16/9;background:linear-gradient(135deg,hsl(var(--accent)),hsl(var(--border)));display:flex;align-items:center;justify-content:center;position:relative; }
+        .proj-badges { position:absolute;top:12px;right:12px;display:flex;gap:4px; }
+        .proj-badge { width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:hsl(var(--muted)); }
+        .proj-body { padding:20px; }
+        .proj-title { font-family:'Orbitron',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px; }
+        .proj-tech { font-size:12px;color:hsl(var(--muted));margin-bottom:8px; }
+        .proj-desc { font-size:12px;color:hsl(var(--muted));font-family:'Space Grotesk',sans-serif;line-height:1.6; }
+
+        /* ===== EXPERTISE ===== */
+        .exp-icon { width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:16px; }
+        .exp-title { font-family:'Orbitron',sans-serif;font-size:14px;font-weight:600;margin-bottom:8px; }
+        .exp-desc { font-size:12px;color:hsl(var(--muted));font-family:'Space Grotesk',sans-serif;line-height:1.6;margin-bottom:16px; }
+        .exp-tags { display:flex;flex-wrap:wrap;gap:8px; }
+        .exp-tag { padding:4px 12px;border-radius:9999px;font-size:10px;font-family:'Orbitron',sans-serif;letter-spacing:.05em;color:hsl(var(--muted)); }
+
+        /* ===== FAQ ===== */
+        .faq-btn { width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px;text-align:left;border:none;background:transparent;color:hsl(var(--fg));cursor:pointer;font-family:'Orbitron',sans-serif;font-size:13px;font-weight:500; }
+        .faq-chevron { transition:transform .3s; width:16px;height:16px;flex-shrink:0; }
+        .faq-chevron.open { transform:rotate(180deg); }
+        .faq-answer { padding:0 20px 20px;font-size:14px;color:hsl(var(--muted));font-family:'Space Grotesk',sans-serif;line-height:1.7; }
+
+        /* ===== CONTACT ===== */
+        .input {
+            width:100%;padding:12px 16px;border-radius:12px;border:1px solid hsl(var(--border));
+            background:hsla(var(--accent) / .5);color:hsl(var(--fg));font-size:14px;
+            font-family:'Space Grotesk',sans-serif;outline:none;transition:border-color .2s;
+        }
+        .input:focus { border-color: hsla(var(--fg) / .2); }
+        .input::placeholder { color:hsl(var(--muted)); }
+        textarea.input { resize:none; }
+
+        .contact-link { display:flex;align-items:center;gap:20px;padding:20px;border-radius:24px;transition:all .3s; }
+        .contact-icon { width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+        .contact-title { font-family:'Orbitron',sans-serif;font-size:14px;font-weight:600; }
+        .contact-sub { font-size:12px;color:hsl(var(--muted)); }
+
+        /* ===== FOOTER ===== */
+        .footer { border-top:1px solid hsl(var(--border));padding:32px 0;position:relative;z-index:1; }
+        .footer-inner { display:flex;flex-direction:column;align-items:center;gap:16px; }
+        @media(min-width:768px) { .footer-inner { flex-direction:row;justify-content:space-between; } }
+        .footer-links { display:flex;flex-wrap:wrap;justify-content:center;gap:24px; }
+        .footer-link { font-size:12px;color:hsl(var(--muted));transition:color .2s; }
+        .footer-link:hover { color:hsl(var(--fg)); }
+
+        /* ===== PROFILE CARD ===== */
+        .profile-card { max-width:280px;width:100%;padding:24px;border-radius:24px; }
+        .profile-avatar { aspect-ratio:1;border-radius:16px;background:linear-gradient(135deg,hsl(var(--accent)),hsl(var(--border)));display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden; }
+        .profile-avatar img { width:100%;height:100%;object-fit:cover; }
+        .profile-info { display:flex;align-items:center;gap:12px;margin-bottom:8px; }
+        .profile-name { font-family:'Orbitron',sans-serif;font-size:14px;font-weight:600; }
+        .profile-role { font-size:12px;color:hsl(var(--muted)); }
+        .profile-socials { display:flex;gap:8px;margin-top:12px; }
+
+        /* ===== ABOUT GRID ===== */
+        .about-grid { display:grid;grid-template-columns:1fr;gap:64px;align-items:center; }
+        @media(min-width:768px) { .about-grid { grid-template-columns:1fr 1fr; } }
+
+        /* ===== SECTION HEADER ===== */
+        .section-label { font-size:11px;font-family:'Orbitron',sans-serif;letter-spacing:.15em;color:hsl(var(--muted));margin-bottom:12px; }
+        .section-title { font-size:clamp(28px,5vw,40px);font-weight:700;margin-bottom:0; }
+        .section-desc { color:hsl(var(--muted));margin-top:12px;max-width:480px;font-family:'Space Grotesk',sans-serif; }
+        .text-center { text-align:center; }
+        .mx-auto { margin-left:auto;margin-right:auto; }
+
+        .stats-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px; }
+
+        .about-text { color:hsl(var(--muted));font-family:'Space Grotesk',sans-serif;line-height:1.7; }
+        .about-text p + p { margin-top:16px; }
+
+        /* ===== HERO ===== */
+        .hero { min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:64px;position:relative;z-index:1; }
+        .hero-badge { display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:9999px;font-size:12px;color:hsl(var(--muted));margin-bottom:32px; }
+        .hero-title { font-size:clamp(32px,6vw,72px);font-weight:700;line-height:1.1;margin-bottom:24px;letter-spacing:-.02em; }
+        .hero-desc { max-width:560px;margin:0 auto 40px;color:hsl(var(--muted));font-size:clamp(15px,2vw,18px);font-family:'Space Grotesk',sans-serif; }
+        .hero-btns { display:flex;flex-wrap:wrap;justify-content:center;gap:16px; }
+
+        /* ===== FORM SUCCESS ===== */
+        .form-success { text-align:center;padding:48px 0; }
+        .success-icon { width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px; }
+        .success-title { font-family:'Orbitron',sans-serif;font-weight:600; }
+        .success-desc { font-size:14px;color:hsl(var(--muted));margin-top:4px;font-family:'Space Grotesk',sans-serif; }
+
+        .form-group { display:flex;flex-direction:column;gap:16px; }
+        .btn-submit { width:100%;padding:12px;border-radius:12px;border:none; }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="grid-bg"></div>
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
+
+    <!-- Navbar -->
+    <nav class="nav glass">
+        <div class="container nav-inner">
+            <a href="#home" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;">nafiz.pro.bd</a>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About Me</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#expertise" class="nav-link">Expertise</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://github.com/nafiz-lmsc" target="_blank" class="icon-btn glass"><i data-lucide="github" style="width:16px;height:16px;"></i></a>
+                <a href="#contact" class="btn-rgb" style="padding:8px 16px;font-size:12px;"><span>Hire Me</span></a>
+            </div>
+            <button class="mobile-toggle" onclick="toggleMenu()"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div style="position:absolute;inset:0;background:hsla(var(--bg)/.95);backdrop-filter:blur(20px);display:flex;flex-direction:column;padding:80px 32px 32px;">
+            <button onclick="toggleMenu()" style="position:absolute;top:20px;right:20px;border:none;background:transparent;color:hsl(var(--fg));cursor:pointer;padding:8px;"><i data-lucide="x" style="width:24px;height:24px;"></i></button>
+            <a href="#home" onclick="toggleMenu()" style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:600;padding:12px 0;">Home</a>
+            <a href="#about" onclick="toggleMenu()" style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:600;padding:12px 0;">About Me</a>
+            <a href="#projects" onclick="toggleMenu()" style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:600;padding:12px 0;">Projects</a>
+            <a href="#expertise" onclick="toggleMenu()" style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:600;padding:12px 0;">Expertise</a>
+            <a href="#faq" onclick="toggleMenu()" style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:600;padding:12px 0;">FAQ</a>
+            <a href="#contact" onclick="toggleMenu()" style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:600;padding:12px 0;">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="container text-center" id="heroContent">
+            <div class="hero-badge glass reveal">
+                <div class="glow-dot"></div>
+                Specializing in Web, iOS & Android
+            </div>
+            <h1 class="hero-title text-gradient reveal">Building seamless web<br>and mobile experiences.</h1>
+            <p class="hero-desc reveal">I'm Nafiz, a Full Stack Developer based in Bangladesh. I transform complex ideas into high-performance, native-feel applications and websites that users love.</p>
+            <div class="hero-btns reveal">
+                <a href="#projects" class="btn-rgb"><span>Explore Projects</span><i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
+                <a href="https://wa.me/+8801869751524" target="_blank" class="btn-rgb-outline"><i data-lucide="message-circle" style="width:16px;height:16px;"></i><span>WhatsApp Me</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="reveal">
+                    <p class="section-label">ABOUT</p>
+                    <h2 class="section-title text-gradient">About Me</h2>
+                    <div class="about-text" style="margin-top:24px;">
+                        <p>Hi, I'm Nafiz — a passionate web and app developer from Bangladesh with years of experience crafting beautiful, performant applications for iOS, Android & Web platforms.</p>
+                        <p>My journey started with a curiosity about how apps work, which quickly turned into a deep love for building them. I specialize in cross-platform frameworks like Flutter and React Native.</p>
+                        <p>When I'm not coding, you'll find me exploring the latest design trends, contributing to open-source projects, or helping fellow developers.</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card glass card-3d"><p class="stat-num">5+</p><p class="stat-label">Years Experience</p></div>
+                        <div class="stat-card glass card-3d"><p class="stat-num">50+</p><p class="stat-label">Projects Done</p></div>
+                        <div class="stat-card glass card-3d"><p class="stat-num">30+</p><p class="stat-label">Happy Clients</p></div>
+                    </div>
+                </div>
+                <div class="reveal" style="display:flex;justify-content:center;">
+                    <div class="profile-card glass card-3d">
+                        <div class="profile-avatar">
+                            <img src="1.jpeg" alt="Profile Photo">
+                        </div>
+                        <div class="profile-info">
+                            <div class="glow-dot"></div>
+                            <div>
+                                <p class="profile-name">T. Ahmed Nafiz</p>
+                                <p class="profile-role">Full Stack Developer</p>
+                            </div>
+                        </div>
+                        <div class="profile-socials">
+                            <a href="https://github.com/nafiz-lmsc" class="icon-btn glass"><i data-lucide="github" style="width:16px;height:16px;"></i></a>
+                            <a href="https://www.facebook.com/shada.saao" class="icon-btn glass"><i data-lucide="facebook" style="width:16px;height:16px;"></i></a>
+                            <a href="mailto:lmscclub1@gmail.com" class="icon-btn glass"><i data-lucide="mail" style="width:16px;height:16px;"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="text-center reveal" style="margin-bottom:64px;">
+                <p class="section-label">WORK</p>
+                <h2 class="section-title text-gradient">My Projects</h2>
+                <p class="section-desc mx-auto">Showcasing performance, design, and scalability across various industries.</p>
+            </div>
+            <div class="grid-3">
+                <div class="glass card-3d reveal" style="border-radius:24px;overflow:hidden;cursor:pointer;">
+                    <div class="proj-thumb"><i data-lucide="smartphone" style="width:40px;height:40px;color:hsl(var(--muted));"></i><div class="proj-badges"><span class="proj-badge glass"><i data-lucide="star" style="width:14px;height:14px;"></i></span><span class="proj-badge glass"><i data-lucide="external-link" style="width:14px;height:14px;"></i></span></div></div>
+                    <div class="proj-body"><p class="proj-title">Fitness Tracker Pro</p><p class="proj-tech">iOS & Android • Flutter</p><p class="proj-desc">A comprehensive fitness tracking app with workout plans, nutrition tracking, and social features.</p></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;overflow:hidden;cursor:pointer;">
+                    <div class="proj-thumb"><i data-lucide="smartphone" style="width:40px;height:40px;color:hsl(var(--muted));"></i><div class="proj-badges"><span class="proj-badge glass"><i data-lucide="external-link" style="width:14px;height:14px;"></i></span></div></div>
+                    <div class="proj-body"><p class="proj-title">SwiftCommerce</p><p class="proj-tech">E-commerce App • React Native</p><p class="proj-desc">Full-featured e-commerce platform with payment integration, inventory management, and analytics.</p></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;overflow:hidden;cursor:pointer;">
+                    <div class="proj-thumb"><i data-lucide="smartphone" style="width:40px;height:40px;color:hsl(var(--muted));"></i><div class="proj-badges"><span class="proj-badge glass"><i data-lucide="star" style="width:14px;height:14px;"></i></span><span class="proj-badge glass"><i data-lucide="external-link" style="width:14px;height:14px;"></i></span></div></div>
+                    <div class="proj-body"><p class="proj-title">EduLearn</p><p class="proj-tech">Education App • Flutter</p><p class="proj-desc">Interactive learning platform with video courses, quizzes, and progress tracking for students.</p></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;overflow:hidden;cursor:pointer;">
+                    <div class="proj-thumb"><i data-lucide="smartphone" style="width:40px;height:40px;color:hsl(var(--muted));"></i><div class="proj-badges"><span class="proj-badge glass"><i data-lucide="external-link" style="width:14px;height:14px;"></i></span></div></div>
+                    <div class="proj-body"><p class="proj-title">FoodDash</p><p class="proj-tech">Food Delivery • React Native</p><p class="proj-desc">On-demand food delivery app with real-time tracking, multiple payment options, and reviews.</p></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;overflow:hidden;cursor:pointer;">
+                    <div class="proj-thumb"><i data-lucide="smartphone" style="width:40px;height:40px;color:hsl(var(--muted));"></i><div class="proj-badges"><span class="proj-badge glass"><i data-lucide="star" style="width:14px;height:14px;"></i></span><span class="proj-badge glass"><i data-lucide="external-link" style="width:14px;height:14px;"></i></span></div></div>
+                    <div class="proj-body"><p class="proj-title">CryptoWallet</p><p class="proj-tech">Finance App • Flutter</p><p class="proj-desc">Secure cryptocurrency wallet with portfolio tracking, price alerts, and trading features.</p></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;overflow:hidden;cursor:pointer;">
+                    <div class="proj-thumb"><i data-lucide="smartphone" style="width:40px;height:40px;color:hsl(var(--muted));"></i><div class="proj-badges"><span class="proj-badge glass"><i data-lucide="external-link" style="width:14px;height:14px;"></i></span></div></div>
+                    <div class="proj-body"><p class="proj-title">MelodyStream</p><p class="proj-tech">Music App • React Native</p><p class="proj-desc">Music streaming platform with offline playback, personalized playlists, and social sharing.</p></div>
+                </div>
+            </div>
+            <div class="text-center reveal" style="margin-top:48px;">
+                <a href="#contact" class="btn-rgb"><span>Start Your Project</span><i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise -->
+    <section id="expertise" class="section">
+        <div class="container">
+            <div class="text-center reveal" style="margin-bottom:64px;">
+                <p class="section-label">SKILLS</p>
+                <h2 class="section-title text-gradient">Core Expertise</h2>
+                <p class="section-desc mx-auto">Specialized skills in building modern mobile applications with cutting-edge technologies.</p>
+            </div>
+            <div class="grid-3">
+                <div class="glass card-3d reveal" style="border-radius:24px;padding:24px;">
+                    <div class="exp-icon glass"><i data-lucide="smartphone" style="width:24px;height:24px;"></i></div>
+                    <p class="exp-title">Cross-platform Development</p>
+                    <p class="exp-desc">Developing high-performance apps for both iOS and Android using Flutter and React Native with native-like experiences.</p>
+                    <div class="exp-tags"><span class="exp-tag glass">Flutter</span><span class="exp-tag glass">React Native</span><span class="exp-tag glass">Dart</span></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;padding:24px;">
+                    <div class="exp-icon glass"><i data-lucide="palette" style="width:24px;height:24px;"></i></div>
+                    <p class="exp-title">Mobile UI/UX Design</p>
+                    <p class="exp-desc">Designing intuitive interfaces with a focus on smooth micro-interactions and thumb-friendly navigation patterns.</p>
+                    <div class="exp-tags"><span class="exp-tag glass">Figma</span><span class="exp-tag glass">Material Design</span><span class="exp-tag glass">iOS Guidelines</span></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;padding:24px;">
+                    <div class="exp-icon glass"><i data-lucide="code" style="width:24px;height:24px;"></i></div>
+                    <p class="exp-title">API & Backend Integration</p>
+                    <p class="exp-desc">Integrating robust REST/GraphQL APIs and real-time cloud services like Firebase for dynamic features.</p>
+                    <div class="exp-tags"><span class="exp-tag glass">Firebase</span><span class="exp-tag glass">REST API</span><span class="exp-tag glass">GraphQL</span></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;padding:24px;">
+                    <div class="exp-icon glass"><i data-lucide="apple" style="width:24px;height:24px;"></i></div>
+                    <p class="exp-title">Native iOS Development</p>
+                    <p class="exp-desc">Building powerful iOS applications using Swift and SwiftUI with seamless integration of Apple ecosystem features.</p>
+                    <div class="exp-tags"><span class="exp-tag glass">Swift</span><span class="exp-tag glass">SwiftUI</span><span class="exp-tag glass">Xcode</span></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;padding:24px;">
+                    <div class="exp-icon glass"><i data-lucide="tablet-smartphone" style="width:24px;height:24px;"></i></div>
+                    <p class="exp-title">Native Android Development</p>
+                    <p class="exp-desc">Creating optimized Android apps using Kotlin and Jetpack Compose with Material Design implementation.</p>
+                    <div class="exp-tags"><span class="exp-tag glass">Kotlin</span><span class="exp-tag glass">Jetpack Compose</span><span class="exp-tag glass">Android Studio</span></div>
+                </div>
+                <div class="glass card-3d reveal" style="border-radius:24px;padding:24px;">
+                    <div class="exp-icon glass"><i data-lucide="test-tube" style="width:24px;height:24px;"></i></div>
+                    <p class="exp-title">Testing & Quality Assurance</p>
+                    <p class="exp-desc">Implementing comprehensive testing strategies including unit tests, integration tests, and automated UI testing.</p>
+                    <div class="exp-tags"><span class="exp-tag glass">Jest</span><span class="exp-tag glass">Detox</span><span class="exp-tag glass">XCTest</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+        <div class="container" style="max-width:768px;">
+            <div class="text-center reveal" style="margin-bottom:64px;">
+                <p class="section-label">FAQ</p>
+                <h2 class="section-title text-gradient">Frequently Asked Questions</h2>
+                <p class="section-desc mx-auto">Common questions about my services and workflow.</p>
+            </div>
+            <div class="reveal" style="display:flex;flex-direction:column;gap:12px;" id="faqContainer">
+                <div class="glass" style="border-radius:16px;overflow:hidden;">
+                    <button class="faq-btn" onclick="toggleFaq(this)">What platforms do you develop for?<i data-lucide="chevron-down" class="faq-chevron"></i></button>
+                    <div class="faq-content"><p class="faq-answer">I specialize in developing for both iOS and Android platforms. I primarily use cross-platform frameworks like Flutter and React Native, which allow me to build apps that work seamlessly on both platforms.</p></div>
+                </div>
+                <div class="glass" style="border-radius:16px;overflow:hidden;">
+                    <button class="faq-btn" onclick="toggleFaq(this)">How long does it take to build an app?<i data-lucide="chevron-down" class="faq-chevron"></i></button>
+                    <div class="faq-content"><p class="faq-answer">The timeline varies based on the app's complexity. A simple app typically takes 4-6 weeks, while a more complex app can take 3-6 months. I'll provide a detailed timeline after discussing your requirements.</p></div>
+                </div>
+                <div class="glass" style="border-radius:16px;overflow:hidden;">
+                    <button class="faq-btn" onclick="toggleFaq(this)">Do you offer post-launch support?<i data-lucide="chevron-down" class="faq-chevron"></i></button>
+                    <div class="faq-content"><p class="faq-answer">Yes! I provide post-launch support including bug fixes, performance optimization, and feature updates. All projects include a warranty period for bug fixes.</p></div>
+                </div>
+                <div class="glass" style="border-radius:16px;overflow:hidden;">
+                    <button class="faq-btn" onclick="toggleFaq(this)">What is your development process?<i data-lucide="chevron-down" class="faq-chevron"></i></button>
+                    <div class="faq-content"><p class="faq-answer">My process includes: 1) Discovery & Planning, 2) Design, 3) Development with regular updates, 4) Testing, 5) Launch, 6) Ongoing support and maintenance.</p></div>
+                </div>
+                <div class="glass" style="border-radius:16px;overflow:hidden;">
+                    <button class="faq-btn" onclick="toggleFaq(this)">Can you help with app store submission?<i data-lucide="chevron-down" class="faq-chevron"></i></button>
+                    <div class="faq-content"><p class="faq-answer">Absolutely! I handle the entire app store submission process for both Apple App Store and Google Play Store, including preparing descriptions, screenshots, and ensuring compliance.</p></div>
+                </div>
+                <div class="glass" style="border-radius:16px;overflow:hidden;">
+                    <button class="faq-btn" onclick="toggleFaq(this)">What are your rates?<i data-lucide="chevron-down" class="faq-chevron"></i></button>
+                    <div class="faq-content"><p class="faq-answer">My rates depend on the project scope, complexity, and timeline. I offer both fixed-price projects and hourly rates. After our initial discussion, I'll provide a detailed quote with transparent pricing.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="text-center reveal" style="margin-bottom:64px;">
+                <h2 class="section-title text-gradient">Let's work together.</h2>
+                <p class="section-desc mx-auto">Whether you have a fully-fledged app idea or just a concept, I'm here to build it.</p>
+            </div>
+            <div class="grid-2" style="gap:32px;">
+                <div class="glass reveal" style="border-radius:24px;padding:32px;">
+                    <i data-lucide="send" style="width:20px;height:20px;color:hsl(var(--muted));margin-bottom:16px;"></i>
+                    <h3 style="font-family:'Orbitron',sans-serif;font-weight:600;margin-bottom:24px;">Send a Message</h3>
+                    <form id="contactForm" class="form-group" onsubmit="handleSubmit(event)">
+                        <form action="https://api.web3forms.com/submit" method="POST">
+                          <input type="hidden" name="access_key" value="0cd5ba7a-7b02-4f3e-9661-3e1ff04f9cf2">
+                        <input type="text" placeholder="Full Name" required class="input">
+                        <input type="email" placeholder="Email Address" required class="input">
+                        <textarea placeholder="Your Message" rows="4" required class="input"></textarea>
+                        <button type="submit" class="btn-rgb btn-submit"><span>Submit</span></button>
+                    </form>
+                    <div id="formSuccess" class="form-success" style="display:none;">
+                        <div class="success-icon glass"><i data-lucide="send" style="width:20px;height:20px;color:#4ade80;"></i></div>
+                        <p class="success-title">Message Sent!</p>
+                        <p class="success-desc">I'll get back to you shortly.</p>
+                    </div>
+                </div>
+                <div class="reveal" style="display:flex;flex-direction:column;gap:16px;">
+                    <a href="https://wa.me/+8801869751524" target="_blank" class="contact-link glass card-3d">
+                        <div class="contact-icon glass"><i data-lucide="phone" style="width:20px;height:20px;"></i></div>
+                        <div><p class="contact-title">WhatsApp</p><p class="contact-sub">+880 18697-51524</p></div>
+                    </a>
+                    <a href="mailto:lmscclub1@gmail.com" class="contact-link glass card-3d">
+                        <div class="contact-icon glass"><i data-lucide="mail" style="width:20px;height:20px;"></i></div>
+                        <div><p class="contact-title">Email</p><p class="contact-sub">lmscclub1@gmail.com</p></div>
+                    </a>
+                    <a href="https://www.facebook.com/shada.saao" target="_blank" class="contact-link glass card-3d">
+                        <div class="contact-icon glass"><i data-lucide="facebook" style="width:20px;height:20px;"></i></div>
+                        <div><p class="contact-title">Facebook</p><p class="contact-sub">T. Ahmed Nafiz</p></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-links">
+                <a href="#home" class="footer-link">Home</a>
+                <a href="#about" class="footer-link">About</a>
+                <a href="#projects" class="footer-link">Projects</a>
+                <a href="#expertise" class="footer-link">Expertise</a>
+                <a href="#faq" class="footer-link">FAQ</a>
+                <a href="#contact" class="footer-link">Contact</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://facebook.com" class="footer-link">Facebook</a>
+                <a href="https://wa.me/+8801869751524" class="footer-link">WhatsApp</a>
+                <a href="mailto:lmscclub1@gmail.com" class="footer-link">Email</a>
+            </div>
+            <p style="font-size:12px;color:hsl(var(--muted));text-align:center;">© 2026 nafiz.pro.bd — Building for Web, iOS & Android</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // FAQ
+        function toggleFaq(btn) {
+            const content = btn.nextElementSibling;
+            const chevron = btn.querySelector('.faq-chevron');
+            const allContents = document.querySelectorAll('.faq-content');
+            const allChevrons = document.querySelectorAll('.faq-chevron');
+
+            allContents.forEach(c => { if (c !== content) c.classList.remove('open'); });
+            allChevrons.forEach(c => { if (c !== chevron) c.classList.remove('open'); });
+
+            content.classList.toggle('open');
+            chevron.classList.toggle('open');
+        }
+
+        // Form
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('contactForm').style.display = 'flex';
+                document.getElementById('formSuccess').style.display = 'none';
+                document.getElementById('contactForm').reset();
+            }, 3000);
+        }
+
+        // Parallax on hero
+        window.addEventListener('scroll', () => {
+            const hero = document.getElementById('heroContent');
+            if (hero) hero.style.transform = 'translateY(' + (window.scrollY * 0.15) + 'px)';
+        }, { passive: true });
+
+        // Intersection Observer for reveals
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
